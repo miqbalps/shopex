@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../backend/conn.php';
+require_once '../utils/crypto.php';
 
 // Assuming user is logged in and we have user_id in session
 $user_id = $_SESSION['user_id'] ?? null;
@@ -27,7 +28,13 @@ foreach ($cart as $item) {
     $total += $item['price'] * $item['quantity'];
 }
 
-// Rest of your HTML code remains the same...
+// Add this query after the cart query
+$bank_query = "SELECT * FROM bank WHERE user_id = ?";
+$bank_stmt = $conn->prepare($bank_query);
+$bank_stmt->bind_param("i", $user_id);
+$bank_stmt->execute();
+$bank_result = $bank_stmt->get_result();
+$banks = $bank_result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -41,13 +48,13 @@ foreach ($cart as $item) {
 <body class="bg-gray-50 text-gray-800">
 <?php include 'partials/header.php'; ?>
 
-<main class="max-w-4xl mx-auto p-6 h-[calc(82vh)]">
+<main class="max-w-4xl mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">Checkout</h1>
 
     <?php if (empty($cart)): ?>
         <p class="text-gray-600">Keranjang Anda kosong. <a href="index.php" class="text-blue-600 hover:underline">Belanja sekarang</a>.</p>
     <?php else: ?>
-        <form action="../backend/process-checkout.php" method="post" class="space-y-6">
+        <form action="../backend/process_checkout.php" method="post" class="space-y-6">
             <!-- Informasi Pengiriman -->
             <div class="bg-white shadow rounded p-4">
                 <h2 class="font-semibold mb-4 text-lg">Informasi Pengiriman</h2>
@@ -63,13 +70,15 @@ foreach ($cart as $item) {
             <!-- Metode Pembayaran -->
             <div class="bg-white shadow rounded p-4">
                 <h2 class="font-semibold mb-4 text-lg">Metode Pembayaran</h2>
-                <label class="flex items-center gap-2">
-                    <input type="radio" name="payment" value="cod" required>
-                    <span>Bayar di Tempat (COD)</span>
-                </label>
+                <?php foreach ($banks as $bank): ?>
+                    <label class="flex items-center gap-2 mt-2">
+                        <input type="radio" name="payment" value="<?= htmlspecialchars($bank['id']) ?>" required>
+                        <span><?= htmlspecialchars(decryptData($bank['bank_name'])) ?> - <?= htmlspecialchars(decryptData($bank['card_number'])) ?> - CVV (<?= htmlspecialchars(decryptData($bank['cvv'])) ?>)</span>
+                    </label>
+                <?php endforeach; ?>
                 <label class="flex items-center gap-2 mt-2">
-                    <input type="radio" name="payment" value="transfer">
-                    <span>Transfer Bank</span>
+                    <input type="radio" name="payment" value="cod">
+                    <span>Bayar di Tempat (COD)</span>
                 </label>
             </div>
 

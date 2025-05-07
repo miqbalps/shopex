@@ -1,42 +1,7 @@
 <?php
-session_start();
 require_once '../backend/conn.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
-    
-    // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT id, email, password, name, address, phone FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        // Verify the password
-        if (password_verify($password, $user['password'])) {
-            // Password is correct, create session with additional data
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['name'] = $user['name'];
-            $_SESSION['address'] = $user['address'];
-            $_SESSION['phone'] = $user['phone'];
-            
-            header("Location: ../frontend/index.php");
-            exit();
-        } else {
-            $_SESSION['error'] = "Invalid password";
-        }
-    } else {
-        $_SESSION['error'] = "User not found";
-    }
-    
-    header("Location: ../frontend/login.php");
-    exit();
-}
+require_once '../backend/process_login.php';
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

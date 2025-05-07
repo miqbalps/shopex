@@ -43,7 +43,7 @@ $stmt->close();
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Gambar Produk -->
             <div>
-                <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full rounded shadow">
+                <img src="../uploads/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full rounded shadow">
             </div>
 
             <!-- Detail Produk -->
@@ -54,7 +54,7 @@ $stmt->close();
 
                 <p class="mb-2 text-sm">Stok tersedia: <span class="font-medium"><?= $product['stock'] ?> pcs</span></p>
 
-                <form action="add-to-cart.php" method="post" class="space-y-4">
+                <form action="../backend/add_to_cart.php" method="post" class="space-y-4">
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
                     <div>
@@ -65,8 +65,6 @@ $stmt->close();
 
                     <div class="flex gap-4 mt-4">
                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">Tambah ke Keranjang</button>
-                        <a href="checkout.php?product_id=<?= $product['id'] ?>&quantity=1"
-                           class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">Beli Sekarang</a>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'conn.php';
+require_once '../utils/crypto.php'; // Pastikan path sesuai dengan struktur kamu
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -9,14 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
     $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
 
-    // Validate email format
+    // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Invalid email format";
         header("Location: ../frontend/register.php");
         exit();
     }
 
-    // Check if email already exists
+    // Check existing email
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -28,12 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Enkripsi address dan phone
+    $encryptedAddress = encryptData($address);
+    $encryptedPhone = encryptData($phone);
+
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert new user
+    // Simpan ke database
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, address, phone) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $email, $hashed_password, $address, $phone);
+    $stmt->bind_param("sssss", $name, $email, $hashed_password, $encryptedAddress, $encryptedPhone);
 
     if ($stmt->execute()) {
         $_SESSION['success'] = "Registration successful! Please login.";

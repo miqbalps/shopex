@@ -3,8 +3,8 @@
         <a href="index.php" class="text-2xl font-bold text-blue-600">ShopEx</a>
         
         <div class="flex items-center gap-4">
-            <a href="cart.php" class="text-gray-600 hover:text-blue-600">
-                <i class="fas fa-shopping-cart"></i>
+            <a href="cart.php" class="text-gray-700 hover:text-blue-600">
+                <i class="fas fa-shopping-cart"></i> Keranjang
             </a>
 
             <?php if (isset($_SESSION['user_id'])): ?>

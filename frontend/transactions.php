@@ -1,23 +1,23 @@
 <?php 
 session_start(); 
 // Check if user is logged in
-// if (!isset($_SESSION['user_id'])) {
-//     header('Location: login.php');
-//     exit();
-// }
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
 
 // Add database connection here
 require_once '../backend/conn.php';
 
 // // Fetch transactions for the logged-in user
-// $user_id = $_SESSION['user_id'];
-// $query = "SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC";
-// $stmt = mysqli_prepare($conn, $query);
-// mysqli_stmt_bind_param($stmt, "i", $user_id);
-// mysqli_stmt_execute($stmt);
-// $result = mysqli_stmt_get_result($stmt);
-// $transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
-// mysqli_stmt_close($stmt);
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$transactions = mysqli_fetch_all($result, MYSQLI_ASSOC);
+mysqli_stmt_close($stmt);
 
 // // Rest of the HTML code remains the same...
 // ?>
@@ -45,7 +45,7 @@ require_once '../backend/conn.php';
                     <table class="min-w-full">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="px-6 py-3 text-left">Order ID</th>
+                                <th class="px-6 py-3 text-left">Transaction ID</th>
                                 <th class="px-6 py-3 text-left">Date</th>
                                 <th class="px-6 py-3 text-left">Total</th>
                                 <th class="px-6 py-3 text-left">Status</th>

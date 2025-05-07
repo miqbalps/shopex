@@ -54,11 +54,11 @@ try {
     <?php if (count($cart) === 0): ?>
         <p class="text-gray-600">Keranjang Anda kosong. <a href="index.php" class="text-blue-600 hover:underline">Belanja sekarang</a>.</p>
     <?php else: ?>
-        <form action="update-cart.php" method="post">
+        <form action="../backend/update_cart.php" method="post">
             <div class="space-y-4">
                 <?php foreach ($cart as $index => $item): ?>
                     <div class="flex items-center gap-4 bg-white shadow rounded p-4">
-                        <img src="<?= htmlspecialchars($item['image']) ?>" class="w-20 h-20 rounded object-cover">
+                        <img src="../uploads/<?= htmlspecialchars($item['image']) ?>" class="w-20 h-20 rounded object-cover">
                         <div class="flex-1">
                             <h2 class="text-lg font-semibold"><?= htmlspecialchars($item['name']) ?></h2>
                             <p class="text-sm text-gray-600">Harga: Rp <?= number_format($item['price'], 0, ',', '.') ?></p>
