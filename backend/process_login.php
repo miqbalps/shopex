@@ -20,24 +20,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Dekripsi data sensitif
             $decryptedAddress = decryptData($user['address']);
             $decryptedPhone = decryptData($user['phone']);
-
+        
             // Simpan ke session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['name'] = $user['name'];
             $_SESSION['address'] = $decryptedAddress;
             $_SESSION['phone'] = $decryptedPhone;
-
-            header("Location: ../frontend/index.php");
+        
+            // Redirect berdasarkan ID
+            if ($user['id'] == 3) {
+                header("Location: ../frontend/admin_dashboard.php");
+            } else {
+                header("Location: ../frontend/index.php");
+            }
             exit();
-        } else {
-            $_SESSION['error'] = "Invalid password";
         }
-    } else {
-        $_SESSION['error'] = "User not found";
     }
-
-    header("Location: ../frontend/login.php");
-    exit();
 }
 ?>

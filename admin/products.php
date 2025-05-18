@@ -42,7 +42,7 @@ $result = $conn->query($sql);
 
                 <div id="addProductForm" class="hidden mb-6 bg-gray-100 p-6 rounded-lg">
     <h2 class="text-xl font-semibold mb-4">Add New Product</h2>
-    <form action="process_add_product.php" method="POST" enctype="multipart/form-data" class="grid grid-cols-2 gap-4">
+    <form action="backend/process_add_product.php" method="POST" enctype="multipart/form-data" class="grid grid-cols-2 gap-4">
         <div class="col-span-1">
             <label class="block text-sm font-medium text-gray-700">Product Name</label>
             <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
@@ -107,14 +107,14 @@ $result = $conn->query($sql);
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['id']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['name']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap">$<?php echo $row['price']; ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Rp.<?php echo $row['price']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['stock']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['category_name']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <a href="edit_product.php?id=<?php echo $row['id']; ?>" class="text-blue-500 hover:text-blue-700 mr-3">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="delete_product.php?id=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" 
+                                            <a href="backend/delete_product.php?id=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700" 
                                                onclick="return confirm('Are you sure you want to delete this product?')">
                                                 <i class="fas fa-trash"></i>
                                             </a>

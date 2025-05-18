@@ -1,10 +1,23 @@
 <?php 
 // session_start(); 
-// // Add admin authentication check
 // if (!isset($_SESSION['admin_id'])) {
 //     header("Location: login.php");
 //     exit();
 // }
+
+require_once '../backend/conn.php'; // pastikan path koneksi benar
+
+// Query untuk mendapatkan total produk
+$result_products = $conn->query("SELECT COUNT(*) as total FROM products");
+$total_products = $result_products ? $result_products->fetch_assoc()['total'] : 0;
+
+// Query untuk mendapatkan total transaksi
+$result_orders = $conn->query("SELECT COUNT(*) as total FROM transactions");
+$total_orders = $result_orders ? $result_orders->fetch_assoc()['total'] : 0;
+
+// Query untuk mendapatkan total user (optional: filter user non-admin)
+$result_users = $conn->query("SELECT COUNT(*) as total FROM users");
+$total_users = $result_users ? $result_users->fetch_assoc()['total'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +31,6 @@
     <main class="flex mx-auto h-[calc(88vh)]">
         <!-- Sidebar Navigation -->
         <div class="w-64 min-h-screen bg-gray-800">
-            <!-- Sidebar content -->
             <?php include 'partials/sidebar.php'; ?>    
         </div>
 
@@ -33,15 +45,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <h3 class="font-bold">Total Products</h3>
-                    <p class="text-2xl"><?php echo isset($total_products) ? $total_products : '0'; ?></p>
+                    <p class="text-2xl"><?php echo $total_products; ?></p>
                 </div>
                 <div class="bg-green-100 p-4 rounded-lg">
                     <h3 class="font-bold">Total Orders</h3>
-                    <p class="text-2xl"><?php echo isset($total_orders) ? $total_orders : '0'; ?></p>
+                    <p class="text-2xl"><?php echo $total_orders; ?></p>
                 </div>
                 <div class="bg-yellow-100 p-4 rounded-lg">
                     <h3 class="font-bold">Total Users</h3>
-                    <p class="text-2xl"><?php echo isset($total_users) ? $total_users : '0'; ?></p>
+                    <p class="text-2xl"><?php echo $total_users; ?></p>
                 </div>
             </div>
             
@@ -49,6 +61,7 @@
             <div class="bg-gray-50 p-4 rounded-lg">
                 <h2 class="text-xl font-bold mb-4">Recent Activities</h2>
                 <!-- Add your recent activities content here -->
+                <p class="text-gray-500 italic">Coming soon...</p>
             </div>
         </div>
         </div>
