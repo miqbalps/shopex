@@ -1,5 +1,4 @@
 <?php
-require_once '../backend/conn.php';
 require_once '../backend/process_login.php';
 ?>
 

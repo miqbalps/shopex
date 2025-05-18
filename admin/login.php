@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+ require_once '../admin/backend/process_login.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,16 +22,16 @@
     <main class="flex items-center justify-center h-[calc(82vh)]">
         <div class="bg-white p-8 rounded-lg shadow-md w-96">
             <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-            <form action="auth/process_login.php" method="POST">
+            <form action="login.php" method="POST">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                        Email
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Username
                     </label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                           id="email" 
-                           type="email" 
-                           name="email" 
-                           placeholder="Enter your email"
+                           id="username" 
+                           type="username" 
+                           name="username" 
+                           placeholder="Enter your username"
                            required>
                 </div>
                 <div class="mb-6">
