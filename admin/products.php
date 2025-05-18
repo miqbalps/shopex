@@ -107,7 +107,7 @@ $result = $conn->query($sql);
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['id']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['name']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap">Rp.<?php echo $row['price']; ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap">Rp. <?php echo $row['price']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['stock']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['category_name']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
