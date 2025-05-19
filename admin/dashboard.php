@@ -1,9 +1,9 @@
 <?php 
-// session_start(); 
-// if (!isset($_SESSION['admin_id'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+session_start(); 
+if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] != 4) {
+    header("Location: ../frontend/login.php");
+    exit();
+}
 
 require_once '../backend/conn.php'; // pastikan path koneksi benar
 

@@ -1,10 +1,10 @@
 <?php 
-// session_start(); 
-// // Add admin authentication check
-// if (!isset($_SESSION['admin_id'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+session_start(); 
+// Add admin authentication check
+if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] != 4) {
+    header("Location: ../frontend/login.php");
+    exit();
+}
 
 // Add database connection and fetch customers
 require_once '../backend/conn.php';

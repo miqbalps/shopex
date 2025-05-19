@@ -1,9 +1,18 @@
 <?php 
-require_once '../backend/conn.php';
+session_start();
+if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] != 4) {
+    header("Location: ../frontend/login.php");
+    exit();
+}
 
-// Gabungkan tabel users untuk mengambil nama user
-$sql = "SELECT t.*, u.name AS nama_user FROM transactions t
+require_once '../backend/conn.php';
+require_once '../utils/crypto.php'; // fungsi decryptData()
+
+// Gabungkan tabel users dan banks untuk ambil nama user & nama bank
+$sql = "SELECT t.*, u.name AS nama_user, b.bank_name 
+        FROM transactions t
         JOIN users u ON t.user_id = u.id
+        JOIN bank b ON t.bank_id = b.id
         ORDER BY t.date DESC";
 $result = $conn->query($sql);
 ?>
@@ -46,7 +55,12 @@ $result = $conn->query($sql);
                                     <td class="px-6 py-4"><?php echo $row['id']; ?></td>
                                     <td class="px-6 py-4"><?php echo htmlspecialchars($row['nama_user']); ?></td>
                                     <td class="px-6 py-4"><?php echo date('d M Y H:i', strtotime($row['date'])); ?></td>
-                                    <td class="px-6 py-4"><?php echo $row['bank_id']; ?></td>
+                                    <td class="px-6 py-4">
+                                        <?php 
+                                            $bankName = decryptData($row['bank_name']); 
+                                            echo htmlspecialchars($bankName); 
+                                        ?>
+                                    </td>
                                     <td class="px-6 py-4">Rp <?php echo number_format($row['total'], 0, ',', '.'); ?></td>
                                     <td class="px-6 py-4">
                                         <select class="status-dropdown px-2 py-1 text-sm rounded border border-gray-300"
@@ -98,12 +112,10 @@ $(document).ready(function() {
         }
     }
 
-    // Set warna awal saat halaman dimuat
     $(".status-dropdown").each(function() {
         updateDropdownColor(this);
     });
 
-    // Update warna & kirim ke server saat berubah
     $(".status-dropdown").change(function() {
         const status = $(this).val();
         const id = $(this).data("id");

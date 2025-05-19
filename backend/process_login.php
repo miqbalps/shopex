@@ -29,13 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['phone'] = $decryptedPhone;
         
             // Redirect berdasarkan ID
-            if ($user['id'] == 3) {
-                header("Location: ../frontend/admin_dashboard.php");
+            if ($user['id'] == 4) {
+            $_SESSION['admin_id'] = $user['id']; // <== PENTING
+            header("Location: ../admin/dashboard.php");
             } else {
                 header("Location: ../frontend/index.php");
             }
             exit();
         }
     }
+    // Jika login gagal
+    header("Location: ../frontend/login.php?error=invalid_credentials");
+    exit();
 }
 ?>
