@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Enkripsi address dan phone
-    $encryptedAddress = encryptData($address);
-    $encryptedPhone = encryptData($phone);
+    $encryptedAddress = secureEncrypt($address);
+    $encryptedPhone = secureEncrypt($phone);
 
     // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);

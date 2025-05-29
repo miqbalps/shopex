@@ -8,6 +8,7 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] != 4) {
 
 // Add database connection and fetch customers
 require_once '../backend/conn.php';
+require_once '../utils/crypto.php'; // fungsi decryptData()
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 ?>
@@ -58,8 +59,8 @@ $result = $conn->query($sql);
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['id']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['name']; ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['email']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['address']; ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['phone']; ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo decryptData($row['address']); ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo decryptData($row['phone']); ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <a href="edit_customer.php?id=<?php echo $row['id']; ?>" class="text-blue-500 hover:text-blue-700 mr-3">
                                                 <i class="fas fa-edit"></i>

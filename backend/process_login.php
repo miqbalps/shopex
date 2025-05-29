@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (password_verify($password, $user['password'])) {
             // Dekripsi data sensitif
-            $decryptedAddress = decryptData($user['address']);
-            $decryptedPhone = decryptData($user['phone']);
+            $decryptedAddress = secureDecrypt($user['address']);
+            $decryptedPhone = secureDecrypt($user['phone']);
         
             // Simpan ke session
             $_SESSION['user_id'] = $user['id'];
